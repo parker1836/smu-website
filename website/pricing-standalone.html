@@ -1,0 +1,775 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Pricing — Stock Market University</title>
+<meta name="ext-resource-dependency" content="images/logo.png" data-resource-id="logoImg" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style id="inlined-styles">
+/* ============================================
+   Stock Market University — Shared Styles
+   ============================================ */
+
+:root {
+  --ink:        #04091a;
+  --ink-2:      #08112a;
+  --ink-3:      #0f1d3d;
+  --ink-4:      #182c54;
+  --gold:       #c8932c;
+  --gold-bright:#e0ae3f;
+  --gold-soft:  #8f661a;
+  --blue:       #4cc9f7;
+  --blue-deep:  #1e3a8a;
+  --green:      #4ade80;
+  --red:        #ef4444;
+  --text:       #eef1f8;
+  --text-2:     #c5cde0;
+  --muted:      #7d8aa3;
+  --line:       rgba(255,255,255,0.08);
+  --line-2:     rgba(255,255,255,0.14);
+  --paper:      #f5efdb;
+
+  --font-display: "Sora", system-ui, sans-serif;
+  --font-body:    "Manrope", system-ui, sans-serif;
+  --font-mono:    "JetBrains Mono", ui-monospace, monospace;
+
+  --w: 1320px;
+  --pad: clamp(20px, 4vw, 56px);
+  --radius: 14px;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+
+::selection { background: var(--gold); color: var(--ink); }
+
+/* ---------- Layout helpers ---------- */
+.wrap {
+  max-width: var(--w);
+  margin: 0 auto;
+  padding: 0 var(--pad);
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 500;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  margin: 0;
+  color: #fff;
+  text-wrap: balance;
+}
+
+h1 { font-size: clamp(44px, 7.2vw, 104px); font-weight: 700; letter-spacing: -0.035em; }
+h2 { font-size: clamp(32px, 4.4vw, 56px); }
+h3 { font-size: clamp(22px, 2.2vw, 30px); }
+
+p { margin: 0; color: var(--text-2); text-wrap: pretty; }
+
+/* ---------- NAV ---------- */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+  padding: 24px 0;
+  transition: background .3s ease, backdrop-filter .3s ease, border-color .3s ease;
+  border-bottom: 1px solid transparent;
+}
+.nav.scrolled {
+  background: rgba(4, 9, 26, 0.78);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  border-bottom-color: var(--line);
+}
+.nav-row {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 28px;
+}
+.nav .wrap { max-width: 100%; padding-left: 20px; padding-right: 20px; }
+.brand {
+  display: flex; align-items: center; gap: 14px;
+  font-family: var(--font-display); font-weight: 700;
+  letter-spacing: -0.01em; font-size: 17px;
+  color: #fff;
+}
+.brand-mark {
+  width: 72px; height: 72px;
+  object-fit: contain;
+  display: block;
+  flex-shrink: 0;
+}
+.brand-name { font-size: 19px; letter-spacing: -0.01em; }
+.brand-name small {
+  display: block; font-family: var(--font-mono); font-size: 11px;
+  letter-spacing: 0.22em; color: var(--muted); font-weight: 500;
+  margin-top: 2px;
+}
+.nav-links {
+  display: flex; align-items: center; gap: 6px;
+}
+.nav-links a {
+  font-size: 16px; font-weight: 500; color: var(--text-2);
+  padding: 12px 16px; border-radius: 9px;
+  transition: color .2s ease, background .2s ease;
+}
+.nav-links a:hover { color: #fff; background: rgba(255,255,255,0.04); }
+.nav-links a.active { color: #fff; }
+.nav-links a.active::after {
+  content: ""; display: block; height: 2px; width: 18px;
+  background: var(--gold); margin: 4px auto -2px;
+  border-radius: 1px;
+}
+.nav-cta {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 13px 22px; border-radius: 999px;
+  background: var(--gold); color: var(--ink) !important;
+  font-weight: 600; font-size: 14px;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.nav-cta:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 28px -8px rgba(200,147,44,0.55);
+  background: var(--gold-bright) !important;
+}
+
+.menu-btn { display: none; background: none; border: 0; color: #fff; cursor: pointer; padding: 8px; }
+
+@media (max-width: 860px) {
+  .nav-links { display: none; }
+  .menu-btn  { display: block; }
+  .nav-links.open {
+    display: flex; position: absolute; top: 100%; left: 0; right: 0;
+    flex-direction: column; align-items: stretch; gap: 0;
+    background: rgba(4,9,26,0.96); backdrop-filter: blur(18px);
+    border-bottom: 1px solid var(--line);
+    padding: 8px var(--pad) 16px;
+  }
+  .nav-links.open a { padding: 14px 12px; border-radius: 0; border-bottom: 1px solid var(--line); }
+  .nav-links.open .nav-cta { margin-top: 12px; justify-content: center; border-bottom: 0; }
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  padding: 16px 26px; border-radius: 999px;
+  font-family: var(--font-body); font-weight: 600; font-size: 15px;
+  border: 0; cursor: pointer;
+  transition: transform .2s ease, box-shadow .2s ease, background .2s ease, color .2s ease;
+  letter-spacing: -0.005em;
+}
+.btn-gold {
+  background: linear-gradient(180deg, var(--gold-bright), var(--gold));
+  color: var(--ink);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.4) inset, 0 16px 30px -10px rgba(200,147,44,0.55);
+}
+.btn-gold:hover { transform: translateY(-2px); box-shadow: 0 1px 0 rgba(255,255,255,0.4) inset, 0 22px 38px -10px rgba(200,147,44,0.7); }
+.btn-ghost {
+  background: rgba(255,255,255,0.04); color: #fff;
+  border: 1px solid var(--line-2);
+}
+.btn-ghost:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.25); }
+.btn-ink { background: var(--ink); color: #fff; }
+
+.btn .arrow {
+  width: 18px; height: 18px; display: inline-grid; place-items: center;
+  transition: transform .25s ease;
+}
+.btn:hover .arrow { transform: translateX(3px); }
+
+/* ---------- Ticker tape ---------- */
+.ticker {
+  width: 100%;
+  overflow: hidden;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: rgba(255,255,255,0.02);
+  position: relative;
+}
+.ticker::before, .ticker::after {
+  content: ""; position: absolute; top: 0; bottom: 0; width: 80px; z-index: 2; pointer-events: none;
+}
+.ticker::before { left: 0;  background: linear-gradient(90deg, var(--ink), transparent); }
+.ticker::after  { right: 0; background: linear-gradient(-90deg, var(--ink), transparent); }
+.ticker-track {
+  display: flex; gap: 36px; width: max-content;
+  padding: 14px 0;
+  animation: tickerScroll 60s linear infinite;
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+.tk { display: inline-flex; align-items: center; gap: 10px; color: var(--text-2); }
+.tk b { color: #fff; font-weight: 600; letter-spacing: 0.04em; }
+.tk .up   { color: var(--green); }
+.tk .down { color: var(--red); }
+.tk .dot  { width: 4px; height: 4px; border-radius: 50%; background: var(--muted); opacity: .5; }
+@keyframes tickerScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ---------- Reveal-on-scroll ---------- */
+[data-reveal] {
+  opacity: 0; transform: translateY(28px);
+  transition: opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1);
+}
+[data-reveal].in { opacity: 1; transform: none; }
+[data-reveal][data-delay="1"].in { transition-delay: .08s; }
+[data-reveal][data-delay="2"].in { transition-delay: .16s; }
+[data-reveal][data-delay="3"].in { transition-delay: .24s; }
+[data-reveal][data-delay="4"].in { transition-delay: .32s; }
+[data-reveal][data-delay="5"].in { transition-delay: .40s; }
+[data-reveal][data-delay="6"].in { transition-delay: .48s; }
+
+/* ---------- Footer ---------- */
+footer.foot {
+  border-top: 1px solid var(--line);
+  padding: 80px 0 36px;
+  margin-top: 80px;
+  background:
+    radial-gradient(80% 60% at 50% 0%, rgba(200,147,44,0.07), transparent 60%),
+    var(--ink);
+}
+.foot-grid {
+  display: grid;
+  grid-template-columns: 1.4fr repeat(3, 1fr);
+  gap: 56px;
+}
+.foot-grid h5 {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--muted); margin: 0 0 18px;
+  font-weight: 500;
+}
+.foot-grid ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+.foot-grid a { color: var(--text-2); font-size: 14px; }
+.foot-grid a:hover { color: var(--gold); }
+.foot-bottom {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--line);
+  color: var(--muted); font-size: 12px; font-family: var(--font-mono); letter-spacing: 0.04em;
+}
+@media (max-width: 760px) {
+  .foot-grid { grid-template-columns: 1fr 1fr; gap: 36px; }
+  .foot-bottom { flex-direction: column; gap: 12px; align-items: flex-start; }
+}
+
+/* ---------- Page header (interior pages) ---------- */
+.page-head {
+  padding: 168px 0 80px;
+  position: relative;
+  border-bottom: 1px solid var(--line);
+  background:
+    radial-gradient(60% 50% at 50% 0%, rgba(200,147,44,0.12), transparent 60%),
+    radial-gradient(50% 80% at 100% 0%, rgba(76,201,247,0.06), transparent 70%),
+    var(--ink);
+}
+.page-head h1 {
+  font-size: clamp(48px, 7vw, 100px);
+  max-width: 18ch;
+}
+.page-head p {
+  margin-top: 22px;
+  max-width: 60ch;
+  font-size: clamp(16px, 1.4vw, 19px);
+}
+
+/* ---------- Pricing ---------- */
+.tiers {
+  padding: 80px 0 60px;
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+@media (max-width: 1180px) { .tiers { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 720px)  { .tiers { grid-template-columns: 1fr; } }
+.tier {
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 40px 32px;
+  position: relative;
+  display: flex; flex-direction: column;
+  transition: border-color .3s ease, transform .3s ease;
+}
+.tier:hover { border-color: var(--line-2); transform: translateY(-4px); }
+.tier.featured {
+  background:
+    radial-gradient(120% 80% at 100% 0%, rgba(200,147,44,0.18), transparent 60%),
+    linear-gradient(180deg, rgba(200,147,44,0.07), rgba(255,255,255,0.01));
+  border-color: rgba(200,147,44,0.38);
+}
+.tier .badge {
+  position: absolute; top: -12px; right: 24px;
+  background: var(--gold); color: var(--ink);
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em;
+  text-transform: uppercase; font-weight: 700;
+  padding: 6px 12px; border-radius: 999px;
+}
+.tier h3 { font-size: 24px; margin-bottom: 6px; }
+.tier .sub { color: var(--muted); font-size: 14px; margin-bottom: 0; line-height: 1.5; flex: 0 0 auto; }
+.tier-head { display: flex; flex-direction: column; min-height: 260px; }
+.tier-head .price { margin-top: auto; }
+.tier .price {
+  display: flex; align-items: baseline; gap: 6px;
+  font-family: var(--font-display); margin-bottom: 8px;
+}
+.tier .price { display: flex; align-items: baseline; gap: 6px; font-family: var(--font-display); margin: 0 0 10px; }
+.tier .price .amt { font-size: 48px; font-weight: 700; color: #fff; letter-spacing: -0.04em; line-height: 1; }
+.tier .price .curr { font-size: 22px; color: var(--muted); font-weight: 500; }
+.tier .price .per { font-family: var(--font-mono); font-size: 12px; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; margin-left: 4px; }
+.tier .strike { color: var(--muted); text-decoration: line-through; font-size: 14px; font-family: var(--font-mono); line-height: 1.5; }
+.tier .btn { width: 100%; margin: 28px 0 28px; }
+.tier ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
+.tier li {
+  display: flex; gap: 12px; align-items: flex-start; font-size: 15.5px;
+  color: var(--text-2);
+}
+.tier li svg { flex-shrink: 0; margin-top: 2px; color: var(--gold); }
+
+/* ---------- Compare row & FAQ ---------- */
+.compare { padding: 80px 0; border-top: 1px solid var(--line); }
+.compare h2 { margin-bottom: 36px; }
+.cmp-table {
+  width: 100%; border-collapse: collapse;
+  font-size: 14px;
+}
+.cmp-table th, .cmp-table td {
+  padding: 18px 16px; text-align: left;
+  border-bottom: 1px solid var(--line);
+}
+.cmp-table th {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--muted); font-weight: 500;
+}
+.cmp-table th:not(:first-child), .cmp-table td:not(:first-child) { text-align: center; }
+.cmp-table td:first-child { color: var(--text-2); }
+.cmp-yes { color: var(--gold); font-size: 16px; }
+.cmp-no  { color: rgba(255,255,255,0.18); font-size: 16px; }
+
+.faq { padding: 80px 0; border-top: 1px solid var(--line); }
+.faq-grid { display: grid; grid-template-columns: 1fr 1.6fr; gap: 60px; }
+@media (max-width: 860px) { .faq-grid { grid-template-columns: 1fr; gap: 32px; } }
+.faq details {
+  border-top: 1px solid var(--line);
+  padding: 22px 0;
+}
+.faq details:last-child { border-bottom: 1px solid var(--line); }
+.faq summary {
+  list-style: none; cursor: pointer;
+  display: flex; justify-content: space-between; align-items: center; gap: 24px;
+  font-family: var(--font-display); font-size: 18px; font-weight: 500;
+  color: #fff;
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after {
+  content: "+"; font-family: var(--font-mono); font-size: 22px; color: var(--gold);
+  transition: transform .25s ease;
+}
+.faq details[open] summary::after { transform: rotate(45deg); }
+.faq details p {
+  margin-top: 14px; color: var(--text-2); font-size: 15px; max-width: 70ch;
+}
+
+/* ---------- CTA band ---------- */
+.cta-band {
+  margin: 100px 0 0;
+  padding: 100px 0;
+  border-top: 1px solid var(--line);
+  background:
+    radial-gradient(60% 80% at 50% 0%, rgba(200,147,44,0.2), transparent 65%),
+    linear-gradient(180deg, var(--ink-2), var(--ink));
+  text-align: center;
+}
+.cta-band h2 {
+  font-size: clamp(36px, 5vw, 68px); max-width: 18ch; margin: 0 auto 24px;
+}
+.cta-band p { max-width: 56ch; margin: 0 auto 36px; }
+
+/* ---------- Mobile ---------- */
+@media (max-width: 640px) {
+  :root { --pad: 18px; }
+  body { font-size: 16px; }
+
+  .nav { padding: 14px 0; }
+  .nav .wrap { padding-left: 14px; padding-right: 14px; }
+  .brand-mark { width: 44px; height: 44px; }
+  .brand-name { font-size: 14px; }
+  .brand-name small { font-size: 9px; letter-spacing: 0.2em; }
+
+  .btn { padding: 14px 22px; font-size: 14px; }
+
+  .page-head { padding: 60px 0 40px; }
+
+  .tiers { gap: 16px; }
+  .tier { padding: 28px 22px; }
+  .tier .price { font-size: 40px; }
+  .tier h3 { font-size: 22px; }
+  .tier ul li { font-size: 14px; }
+
+  .cmp-table th, .cmp-table td { padding: 12px 8px; font-size: 13px; }
+  .cmp-table th:first-child { width: 40%; }
+
+  .faq summary { font-size: 16px; padding: 18px 0; }
+  .faq details p { font-size: 14px; padding-bottom: 18px; }
+
+  .cta-band { padding: 60px 0; }
+
+  .foot { padding: 60px 0 30px; }
+  .foot-grid { grid-template-columns: 1fr; gap: 28px; }
+  .foot h5 { font-size: 13px; }
+  .foot-bottom { font-size: 10px; gap: 8px; flex-wrap: wrap; }
+}
+
+@media (max-width: 380px) {
+  .brand-name { display: none; }
+  .brand-mark { width: 38px; height: 38px; }
+}
+</style>
+</head>
+<body data-active="pricing" data-screen-label="Pricing">
+
+<nav class="nav" id="nav">
+  <div class="wrap nav-row">
+    <a href="#" class="brand">
+      <img class="brand-mark" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==" alt="SMU" />
+      <span class="brand-name">
+        <span>Stock Market University</span>
+        <small>EST. 2026</small>
+      </span>
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="#" data-page="home">Home</a>
+      <a href="#" data-page="curriculum">Curriculum</a>
+      <a href="#" class="active" data-page="pricing">Programs</a>
+      <a href="#" data-page="ebook">Free Ebook</a>
+      <a href="#" class="nav-cta">Apply to SMU →</a>
+    </div>
+    <button class="menu-btn" aria-label="Menu">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+</nav>
+
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <span class="tk"><b>SPX</b> 5,842.31 <span class="up">+0.62%</span></span><span class="dot tk"></span>
+    <span class="tk"><b>DJI</b> 43,210.06 <span class="up">+0.41%</span></span><span class="dot tk"></span>
+    <span class="tk"><b>NDX</b> 20,994.04 <span class="up">+0.84%</span></span><span class="dot tk"></span>
+    <span class="tk"><b>RUT</b> 2,418.77 <span class="down">-0.12%</span></span><span class="dot tk"></span>
+    <span class="tk"><b>AAPL</b> 232.10 <span class="down">-0.21%</span></span><span class="dot tk"></span>
+    <span class="tk"><b>SPX</b> 5,842.31 <span class="up">+0.62%</span></span><span class="dot tk"></span>
+    <span class="tk"><b>DJI</b> 43,210.06 <span class="up">+0.41%</span></span><span class="dot tk"></span>
+    <span class="tk"><b>NDX</b> 20,994.04 <span class="up">+0.84%</span></span><span class="dot tk"></span>
+    <span class="tk"><b>RUT</b> 2,418.77 <span class="down">-0.12%</span></span><span class="dot tk"></span>
+    <span class="tk"><b>AAPL</b> 232.10 <span class="down">-0.21%</span></span><span class="dot tk"></span>
+  </div>
+</div>
+
+<header class="page-head">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>Enrollment</p>
+    <h1 data-reveal data-delay="1">Four ways to <em style="color:var(--gold); font-style:italic">enroll</em>. One standard. One goal.</h1>
+    <p data-reveal data-delay="2">Become a profitable trader. Escape the matrix. The larger the tier, the sooner you reach your potential — and your financial freedom.</p>
+  </div>
+</header>
+
+<section class="wrap">
+  <div class="tiers">
+
+    <div class="tier" data-reveal>
+      <div class="tier-head">
+        <h3>Foundation</h3>
+        <div class="price">
+          <span class="curr">$</span>
+          <span class="amt">800</span>
+          <span class="per"></span>
+        </div>
+        <div class="strike">List $1,100</div>
+      </div>
+      <a href="#" class="btn btn-ghost">Enroll now</a>
+      <ul>
+        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> 8 modules, video-recorded</li>
+        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Basic market understanding</li>
+        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Read-only access</li>
+      </ul>
+    </div>
+
+    <div class="tier" data-reveal data-delay="1">
+      <div class="tier-head">
+        <h3>Silver</h3>
+        <div class="price">
+          <span class="curr">$</span>
+          <span class="amt">1,800</span>
+          <span class="per"></span>
+        </div>
+        <div class="strike">List $2,200</div>
+      </div>
+      <a href="#" class="btn btn-ghost">Enroll now</a>
+      <ul>
+        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Everything in Foundation</li>
+        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> 9 additional modules, video-recorded</li>
+        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Journaling</li>
+      </ul>
+    </div>
+
+    <div class="tier featured" data-reveal data-delay="2">
+      <span class="badge">Most chosen</span>
+      <div class="tier-head">
+        <h3>Gold</h3>
+        <div class="price">
+          <span class="curr">$</span>
+          <span class="amt">2,800</span>
+          <span class="per"></span>
+        </div>
+        <div class="strike">List $3,500</div>
+      </div>
+      <a href="#" class="btn btn-gold">Apply for a seat
+        <span class="arrow">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </span>
+      </a>
+      <ul>
+        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Everything in Silver</li>
+        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> 11 total modules, video-recorded</li>
+        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Trade plan development</li>
+        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Psychology</li>
+        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Advanced market mastery</li>
+        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Weekly watchlist</li>
+        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Weekly market review</li>
+        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> SMU hat</li>
+      </ul>
+    </div>
+
+    <div class="tier" data-reveal data-delay="3">
+      <div class="tier-head">
+        <h3>Diamond</h3>
+        <div class="price">
+          <span class="curr">$</span>
+          <span class="amt">15,000</span>
+          <span class="per"></span>
+        </div>
+        <div class="strike">List $17,000</div>
+      </div>
+      <a href="#" class="btn btn-ghost">Apply for allocation</a>
+      <ul>
+        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Everything in Gold</li>
+        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Live calls</li>
+        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Live market breakdown</li>
+        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Direct, priority access to me</li>
+        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> 1:1 coaching</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- Compare -->
+<section class="compare">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal style="margin-bottom:14px">Side by side</p>
+    <h2 data-reveal data-delay="1">What's actually different.</h2>
+    <table class="cmp-table" data-reveal data-delay="2">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Foundation</th>
+          <th>Silver</th>
+          <th>Gold</th>
+          <th>Diamond</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Video-recorded modules</td><td><span class="cmp-yes">●</span></td><td><span class="cmp-yes">●</span></td><td><span class="cmp-yes">●</span></td><td><span class="cmp-yes">●</span></td></tr>
+        <tr><td>Basic market understanding</td><td><span class="cmp-yes">●</span></td><td><span class="cmp-yes">●</span></td><td><span class="cmp-yes">●</span></td><td><span class="cmp-yes">●</span></td></tr>
+        <tr><td>Journaling</td><td><span class="cmp-no">—</span></td><td><span class="cmp-yes">●</span></td><td><span class="cmp-yes">●</span></td><td><span class="cmp-yes">●</span></td></tr>
+        <tr><td>Trade plan development</td><td><span class="cmp-no">—</span></td><td><span class="cmp-no">—</span></td><td><span class="cmp-yes">●</span></td><td><span class="cmp-yes">●</span></td></tr>
+        <tr><td>Psychology</td><td><span class="cmp-no">—</span></td><td><span class="cmp-no">—</span></td><td><span class="cmp-yes">●</span></td><td><span class="cmp-yes">●</span></td></tr>
+        <tr><td>Advanced market mastery</td><td><span class="cmp-no">—</span></td><td><span class="cmp-no">—</span></td><td><span class="cmp-yes">●</span></td><td><span class="cmp-yes">●</span></td></tr>
+        <tr><td>Weekly watchlist</td><td><span class="cmp-no">—</span></td><td><span class="cmp-no">—</span></td><td><span class="cmp-yes">●</span></td><td><span class="cmp-yes">●</span></td></tr>
+        <tr><td>Weekly market review</td><td><span class="cmp-no">—</span></td><td><span class="cmp-no">—</span></td><td><span class="cmp-yes">●</span></td><td><span class="cmp-yes">●</span></td></tr>
+        <tr><td>SMU hat</td><td><span class="cmp-no">—</span></td><td><span class="cmp-no">—</span></td><td><span class="cmp-yes">●</span></td><td><span class="cmp-yes">●</span></td></tr>
+        <tr><td>Live calls</td><td><span class="cmp-no">—</span></td><td><span class="cmp-no">—</span></td><td><span class="cmp-no">—</span></td><td><span class="cmp-yes">●</span></td></tr>
+        <tr><td>Live market breakdown</td><td><span class="cmp-no">—</span></td><td><span class="cmp-no">—</span></td><td><span class="cmp-no">—</span></td><td><span class="cmp-yes">●</span></td></tr>
+        <tr><td>Direct, priority access to me</td><td><span class="cmp-no">—</span></td><td><span class="cmp-no">—</span></td><td><span class="cmp-no">—</span></td><td><span class="cmp-yes">●</span></td></tr>
+        <tr><td>1:1 coaching</td><td><span class="cmp-no">—</span></td><td><span class="cmp-no">—</span></td><td><span class="cmp-no">—</span></td><td><span class="cmp-yes">●</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq">
+  <div class="wrap">
+    <div class="faq-grid">
+      <div data-reveal>
+        <p class="eyebrow" style="margin-bottom:14px">Questions, answered</p>
+        <h2>The honest FAQ.</h2>
+        <p style="margin-top:18px">If your question isn't here, write us. We answer every inquiry personally within 48 hours.</p>
+      </div>
+      <div>
+        <details data-reveal data-delay="1">
+          <summary>Do I need trading experience to apply?</summary>
+          <p>No. About 80% of our students start with under six months of live trading. What we ask is that you're willing to go through the modules, study and put in the actual work.</p>
+        </details>
+        <details data-reveal data-delay="2">
+          <summary>Is this a get-rich-quick program?</summary>
+          <p>No. We don't sell signals, we don't pitch a single setup that "always works," and we don't promise outcomes. We teach a process. What you do with it is on you.</p>
+        </details>
+        <details data-reveal data-delay="3">
+          <summary>How much time per week?</summary>
+          <p>What you put into the course is what you'll get out of it. You can lead a horse to water, but you can't force it to drink. We recommend a minimum of at least one hour per day.</p>
+        </details>
+        <details data-reveal data-delay="4">
+          <summary>Do I need capital to start?</summary>
+          <p>No, you don't need any capital to go through the course. We don't recommend you start trading until you're fully done with the modules. At that point, you'll need funds to start trading real capital — or you can start paper trading first.</p>
+        </details>
+        <details data-reveal data-delay="5">
+          <summary>What's your refund policy?</summary>
+          <p>We do not give refunds. With so much information inside the course, someone could easily download and copy all of it, store it elsewhere, and ask for their money back. We can't give the blueprint away for free.</p>
+        </details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA band -->
+<section class="cta-band">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>Begins soon</p>
+    <h2 data-reveal data-delay="1">Take a seat at the desk.</h2>
+    <div data-reveal data-delay="2" style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin-top:24px">
+      <a href="#" class="btn btn-gold">Reserve a seat
+        <span class="arrow">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </span>
+      </a>
+      <a href="#" class="btn btn-ghost">Re-read the curriculum</a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a href="#" class="brand" style="margin-bottom:18px">
+          <img class="brand-mark" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==" alt="SMU" />
+          <span class="brand-name">
+            <span>Stock Market University</span>
+            <small>EST. 2026</small>
+          </span>
+        </a>
+        <p style="max-width:36ch; color:var(--muted); font-size:14px; margin-top:18px">
+          A disciplined education in market structure, risk, and execution. Taught by working traders, designed for serious operators.
+        </p>
+      </div>
+      <div>
+        <h5>Program</h5>
+        <ul>
+          <li><a href="#">Curriculum</a></li>
+          <li><a href="#">Pricing &amp; Cohorts</a></li>
+          <li><a href="#">Faculty</a></li>
+          <li><a href="#">Outcomes</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Resources</h5>
+        <ul>
+          <li><a href="#">The Trading Journal</a></li>
+          <li><a href="#">Market Glossary</a></li>
+          <li><a href="#">Free Webinar</a></li>
+          <li><a href="#">Discord Community</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Company</h5>
+        <ul>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Press</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 SMU HOLDINGS, LLC · ALL RIGHTS RESERVED</span>
+      <span>NOT INVESTMENT ADVICE · EDUCATIONAL CONTENT ONLY</span>
+    </div>
+  </div>
+</footer>
+
+<template id="__bundler_thumbnail" data-bg-color="#04091a">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#04091a"/>
+    <text x="600" y="180" font-size="64" font-weight="700" text-anchor="middle" fill="#eef1f8" font-family="system-ui">Pricing</text>
+    <g fill="#c8932c" opacity="0.8">
+      <rect x="120" y="280" width="220" height="380" rx="12"/>
+      <rect x="490" y="240" width="220" height="420" rx="12"/>
+      <rect x="860" y="280" width="220" height="380" rx="12"/>
+    </g>
+    <text x="600" y="720" font-size="14" text-anchor="middle" fill="#eef1f8" font-family="system-ui" opacity="0.6">Stock Market University</text>
+  </svg>
+</template>
+
+<script>
+// Nav scroll state
+(function () {
+  const nav = document.querySelector('.nav');
+  const onScroll = () => {
+    nav.classList.toggle('scrolled', window.scrollY > 24);
+  };
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  // Mobile menu
+  const menuBtn = document.querySelector('.menu-btn');
+  const links = document.querySelector('.nav-links');
+  if (menuBtn && links) {
+    menuBtn.addEventListener('click', () => {
+      links.classList.toggle('open');
+    });
+  }
+
+  // Reveal on scroll
+  const reveal = document.querySelectorAll('[data-reveal]');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        if (e.isIntersecting) {
+          e.target.classList.add('in');
+          io.unobserve(e.target);
+        }
+      }
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    reveal.forEach((el) => io.observe(el));
+  } else {
+    reveal.forEach((el) => el.classList.add('in'));
+  }
+})();
+</script>
+</body>
+</html>
